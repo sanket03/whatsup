@@ -1,4 +1,4 @@
-const pkg = require('./package')
+const pkg = require('./package');
 
 module.exports = {
   mode: 'universal',
@@ -39,7 +39,25 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/vuetify'
   ],
+
+  manifest: {
+    name: 'whatsup',
+    lang: 'fa',
+    display: 'standalone',
+    background_color: 'red',
+    icons: [{
+      "src": "./assets/images/facebook.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }]
+  },
+
+  workbox : {
+    swSrc: './static/sw.js'
+  },
 
   /*
   ** Build configuration
@@ -48,7 +66,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
+    extend(config, ctx) { 
     }
   }
 }
