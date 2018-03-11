@@ -47,12 +47,7 @@ module.exports = {
     name: 'whatsup',
     lang: 'fa',
     display: 'standalone',
-    background_color: 'red',
-    icons: [{
-      "src": "./assets/images/facebook.png",
-      "sizes": "48x48",
-      "type": "image/png"
-    }]
+    background_color: 'red'
   },
 
   workbox : {

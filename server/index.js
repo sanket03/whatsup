@@ -4,8 +4,10 @@ const { Nuxt, Builder } = require('nuxt')
 const passport = require('passport')
 const session = require('express-session')
 const strategy = require('passport-facebook').Strategy;
-const appConfig = require('../assets/js/config');
-const { appId, appSecret, authStrategy, url} = appConfig 
+const redisStore = require('connect-redis')(session);
+const appConfig = require('./config');
+const {router, redisClient} = require('./routes');
+const { appId, appSecret} = appConfig 
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
@@ -14,6 +16,7 @@ app.set('port', port);
 
 // Initialize session
 app.use(session({
+  store: new redisStore({redisClient}),
   secret: 'leo10cr7',
   resave: false,
   saveUninitialized: false,
@@ -26,24 +29,7 @@ app.use(passport.initialize());
 // Use seession with passport
 app.use(passport.session());
 
-// App routes for facebook authentication
-app.get('/auth/facebook', passport.authenticate(authStrategy));
-
-app.get('/auth/facebook/callback',
-  passport.authenticate(authStrategy, { failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/app');
-    }
-);
-
-// Redirect user to login/app page based on logged in Status
-app.get('/', (req, res) => {
-  !req.user ? res.redirect('/login') : res.redirect('/app')
-})
-
-app.get('/app', (req, res, next) => {
-  !req.user ? res.redirect('/login') : next();
-})
+app.use('/',router);
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -76,7 +62,7 @@ async function start() {
   ))
 
   passport.serializeUser(function(user, cb) {
-    cb(null, user);
+    cb(null, user.id);
   })
   
   passport.deserializeUser(function(obj, cb) {

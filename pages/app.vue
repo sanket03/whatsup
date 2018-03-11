@@ -7,9 +7,6 @@
 </template>
 
 <script>
-const appConfig = require('../assets/js/config')
-export default {
-}
 </script>
 
 <style lang="scss" scoped>
