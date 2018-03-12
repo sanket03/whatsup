@@ -54,6 +54,10 @@ async function start() {
     function(accessToken, refreshToken, profile, cb) {
       if(profile) {
         let user = profile;
+        redisClient.hmset('userInfo',{
+          'userId': user.id,
+          'displayName': user.displayName
+        })
         return cb(null, user);
       } else {
         return cb(null, false);
