@@ -2,6 +2,11 @@
 <div id = 'login-container'>
     <v-app>
         hi
+            <a href = '/logout'>
+                <v-btn light color ='red'>
+                    logout
+                </v-btn>
+            </a>
     </v-app>
 </div>
 </template>

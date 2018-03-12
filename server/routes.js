@@ -26,10 +26,16 @@ router.get('/auth/facebook/callback',
 // Redirect user to login/app page based on logged in Status
 router.get('/', (req, res) => {
   !req.user ? res.redirect('/login') : res.redirect('/app')
-})
+});
 
 router.get('/app', (req, res, next) => {
   !req.user ? res.redirect('/login') : next();
-})
+});
+
+// Logout user
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = {router, redisClient};
