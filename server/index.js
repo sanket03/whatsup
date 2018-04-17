@@ -26,7 +26,7 @@ app.use(session({
 // Initialize passport
 app.use(passport.initialize());
 
-// Use seession with passport
+// Use session with passport
 app.use(passport.session());
 
 app.use('/',router);

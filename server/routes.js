@@ -28,14 +28,18 @@ router.get('/', (req, res) => {
   !req.user ? res.redirect('/login') : res.redirect('/app')
 });
 
-router.get('/app', (req, res, next) => {
-  !req.user ? res.redirect('/login') : next();
-});
+router.get('/userProfile', (req, res, next) => {
+  return res.send(req.user)
+})
 
 // Logout user
 router.get('/logout', (req, res, next) => {
   req.logout();
   res.redirect('/');
+});
+
+router.get('/app', (req, res, next) => {
+ !req.user ? res.redirect('/login') : next();
 });
 
 module.exports = {router, redisClient};

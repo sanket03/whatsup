@@ -1,39 +1,32 @@
 <template>
-<div id = 'login-container'>
-    <v-app>
-        hi
-            <a href = '/logout'>
-                <v-btn light color ='red'>
-                    logout
-                </v-btn>
-            </a>
-    </v-app>
-</div>
+    <div id = 'app-container'>
+        <Header/>
+    </div>
 </template>
 
 <script>
+import Header from '../components/header.vue';
+export default {
+    components: {
+        Header
+    },
+    mounted() {
+        fetch('http://localhost:3000/userProfile', {
+            credentials: 'include'
+        }). then((data) => {
+            return data.json()
+        }).then((data) => {
+            console.log(data);
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+}
 </script>
 
 <style lang="scss" scoped>
-#login-container {
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
-    margin: 40px auto;
-
-    .application.theme--light {
-        background-color: #FFF;
-
-        .application--wrap {
-            > div {
-                margin: 5px 0;
-                font-size: 16pt
-            }
-
-            .btn {
-                color: #FFF;
-            }
-        }
-    }
+#app-container {
+    max-width: 600px;
+    margin: auto;
 }
 </style>
