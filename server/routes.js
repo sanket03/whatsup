@@ -28,9 +28,12 @@ router.get('/', (req, res) => {
   !req.user ? res.redirect('/login') : res.redirect('/app')
 });
 
+// Get user profile on login
 router.get('/userProfile', (req, res, next) => {
-  return res.send(req.user)
-})
+  redisClient.hgetall(`userProfile:${req.user}`, (error, result) => {
+    error ? console.log('Unable to fetch user profile') : res.send(result)
+  }); 
+});
 
 // Logout user
 router.get('/logout', (req, res, next) => {

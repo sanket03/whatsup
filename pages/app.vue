@@ -1,6 +1,6 @@
 <template>
-    <div id = 'app-container'>
-        <Header/>
+    <div id = 'app-container' v-if = 'userDetails.length >= 0'>
+        <Header v-bind:userDetails = 'userDetails'/>
     </div>
 </template>
 
@@ -10,6 +10,11 @@ export default {
     components: {
         Header
     },
+    data() {
+        return {
+            userDetails: {}
+        }
+    },
     mounted() {
         fetch('http://localhost:3000/userProfile', {
             credentials: 'include'
@@ -17,6 +22,7 @@ export default {
             return data.json()
         }).then((data) => {
             console.log(data);
+            this.userDetails = data
         }).catch((error) => {
             console.log(error)
         })
