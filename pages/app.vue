@@ -1,6 +1,6 @@
 <template>
-    <div id = 'app-container' v-if = 'userDetails.length >= 0'>
-        <Header v-bind:userDetails = 'userDetails'/>
+    <div id = 'app-container'>
+        <Header :userDetails = 'userDetails'/>
     </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 #app-container {
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
 }
 </style>
