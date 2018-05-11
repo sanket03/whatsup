@@ -1,21 +1,24 @@
 <template>
   <div id = 'header-container'>
-    <v-btn flat icon>
-      <v-icon medium>home</v-icon>
-    </v-btn>
-    <v-btn flat icon>
-      <v-icon medium>search</v-icon>
-    </v-btn>
-    <v-btn flat icon>
-      <v-icon medium>notifications</v-icon>
-    </v-btn>
-    <v-btn flat icon>
-      <v-icon medium>mail</v-icon>
-    </v-btn>
+    <nuxt-link to = 'home'>
+      <v-btn flat icon>
+        <v-icon medium>home</v-icon>
+      </v-btn>
+    </nuxt-link>
+    <nuxt-link to = 'search'>
+      <v-btn flat icon>
+        <v-icon medium>search</v-icon>
+      </v-btn>
+    </nuxt-link>
+    <nuxt-link to = 'notification'>
+      <v-btn flat icon>
+        <v-icon medium>notifications</v-icon>
+      </v-btn>
+    </nuxt-link>
     <v-text-field
-      name="search-field"
-      placeholder="search"
-      class="input-group--focused"
+      name='search-field'
+      placeholder='search'
+      class='input-group--focused'
     ></v-text-field>
     <v-avatar :size='30' class='grey lighten-4'>
       <img v-bind:src = 'imgSrc'/>
@@ -74,6 +77,9 @@ export default {
           color: red;
         }
       }
+    .active-route {
+      border-bottom: 2px solid red;
+    }
   }
 </style>
 

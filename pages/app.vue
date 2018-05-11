@@ -1,6 +1,7 @@
 <template>
     <div id = 'app-container'>
         <Header :userDetails = 'userDetails'/>
+        <nuxt></nuxt>
     </div>
 </template>
 
