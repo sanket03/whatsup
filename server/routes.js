@@ -19,13 +19,13 @@ router.get('/auth/facebook', passport.authenticate(authStrategy));
 router.get('/auth/facebook/callback',
   passport.authenticate(authStrategy, { failureRedirect: '/login' }),
     function(req, res) {
-      res.redirect('/app');
+      res.redirect('/app/home');
     }
 );
 
 // Redirect user to login/app page based on logged in Status
 router.get('/', (req, res) => {
-  !req.user ? res.redirect('/login') : res.redirect('/app')
+  !req.user ? res.redirect('/login') : res.redirect('/app/home')
 });
 
 // Get user profile on login
@@ -42,7 +42,7 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/app', (req, res, next) => {
- !req.user ? res.redirect('/login') : next();
+ !req.user ? res.redirect('/login') : res.redirect('/app/home');
 });
 
 module.exports = {router, redisClient};

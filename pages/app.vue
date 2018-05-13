@@ -1,7 +1,7 @@
 <template>
     <div id = 'app-container'>
         <Header :userDetails = 'userDetails'/>
-        <nuxt></nuxt>
+        <nuxt-child/>
     </div>
 </template>
 
