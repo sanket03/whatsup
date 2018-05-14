@@ -1,5 +1,5 @@
 <template>
-  <div>This is search</div>
+  <div class = 'route-pages'>This is search</div>
 </template>
 
 <script>

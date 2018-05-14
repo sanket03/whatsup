@@ -1,151 +1,175 @@
 <template>
   <div id = 'header-container'>
-    <nuxt-link to = '/app/home' id = 'home'>
-      <v-btn flat block>
-        <v-icon medium>home</v-icon>
+    <nuxt-link 
+      v-for = 'link in headerLinks' 
+      :key = 'link' 
+      :id = 'link' 
+      :to = 'link.toLowerCase()'
+      active-class = 'active-link'
+    > 
+      <v-btn flat block @click = 'setActiveLink'>
+        <v-icon medium>{{link.toLowerCase()}}</v-icon>
       </v-btn>
     </nuxt-link>
-    <nuxt-link to = '/app/search'  id = 'search'>
-      <v-btn flat block>
-        <v-icon medium>search</v-icon>
-      </v-btn>
-    </nuxt-link>
-    <nuxt-link to = '/app/notification'  id = 'notification'>
-      <v-btn flat block>
-        <v-icon medium>notifications</v-icon>
-      </v-btn>
-    </nuxt-link>
-    <nuxt-link to = '/app/chat' id = 'chat'>
-      <v-btn flat block >
-        <v-icon medium>mail</v-icon>
-      </v-btn>
-    </nuxt-link>
-    <v-text-field
-      name='search-field'
-      placeholder='search'
-      class='input-group--focused'
-    ></v-text-field>
-    <v-avatar :size='30' class='grey lighten-4' id = 'user-avatar'>
-      <img v-bind:src = 'imgSrc'/>
-    </v-avatar>
-    <span>{{this.userDetails.userName}}</span>
+    <div>
+      <input
+        name='search-field'
+        placeholder='search'
+        :class = '[activeLink == "Search" ? "show" : ""]'
+      />
+      <div id = 'user-avatar'>
+        <v-avatar :size='30' class='grey lighten-4'>
+          <img v-bind:src = 'imgSrc' alt = ''/>
+        </v-avatar>
+        <span v-if = 'activeLink !== "Search"'>{{activeLink}}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-const config  = require('../server/config')
+import appConfig from '../assets/scripts/config';
 export default {
   props: ['userDetails'],
   
   // Watcher is required to update data whenever prop changes
   watch: {
     userDetails : function() {
-      this.imgSrc = `${config.graphUrl}/${this.userDetails.userId}/picture?type=small`
+      this.imgSrc = `${appConfig.graphUrl}/${this.userDetails.userId}/picture?type=small`
     }
   },
+
   data() {
     return {
-     imgSrc: ''
+     imgSrc: '',
+     headerLinks: ['Home', 'Search', 'Notifications', 'Message'],
+     activeLink: ''
     }
+  },
+
+  methods: {
+      setActiveLink(event) {
+        this.activeLink = event.currentTarget.parentNode.id;
+      }
   }
 }
 </script>
 
 <style lang= 'scss' scoped>
-  /* #header-container {
-    margin: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    .avatar {
-      align-self: center;
-    }
-
-    .input-group--focused {
-      max-width: 300px;
-    }
-
-    span {
-      font-weight: 600;
-      margin-left: 5px;
-    }
-
-    button {
-      
-      .icon {
-        color: grey;
-      }
-    }
-    button:hover {
-        .icon {
-          color: red;
-        }
-      }
-    .active-route {
-      border-bottom: 2px solid red;
-    }
-  } */
-  
-
-
   #header-container {
     margin: 10px;
+    border-bottom: 1px solid #d3d3d3;
     display: grid;
     grid-template-columns: repeat(8,1fr);
     grid-template-rows: repeat(2,minmax(0px, auto));
-    align-items: center;
-    grid-template-areas: 'home search notifications chat search-input search-input search-input avatar';
+    align-items: flex-end;
+    grid-template-areas: 'home search notifications messages search-avatar search-avatar search-avatar search-avatar';
     justify-items: center;
-      #home {
-        grid-area: home;
+
+    a {
+      width: 100%;
+      text-decoration: none;
+    }
+
+    #home {
+      grid-area: home;
+    }
+
+    #search {
+      grid-area: search;
+    }
+
+    #notifications {
+      grid-area: notifications;
+    }
+
+    #message {
+      grid-area: messages;
+    }
+
+    > div {
+      grid-area: search-avatar;
+      display: flex;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-end;
+
+      input {
+        grid-area: search-input;
+        border: 1px solid #d3d3d3;
+        border-radius: 10px;
+        height: 50%;
+        padding: 12px 5px;
       }
 
-      #search {
-        grid-area: search;
-      }
-
-      #notifications {
-        grid-area: notifications;
-      }
-
-      #chat {
-        grid-area: chat;
+      input:focus {
+        outline: none;
+        border-color: #FF0000;
       }
 
       #user-avatar {
         grid-area: avatar;
-      }
+        align-self: center;
+        margin-left: 20px;
 
-      .input-group--focused {
-        max-width: 200px;
-        grid-area: search-input
-      }
-
-      span {
-        font-weight: 600;
-        margin-left: 5px;
-      }
-
-      button {
-        color: transparent;
-        .icon {
-          color: grey;
+        span {
+          font-weight: 600;
+          margin-left: 5px;
+          display: none;
         }
-      }
-      button:hover {
-          .icon {
-            color: red;
-          }
-        }
-
-      @media screen and (max-width: 850px){
-        grid-template-columns: repeat(4,1fr);
-        grid-template-areas: 
-          'avatar . search-input . '
-          'home search notifications chat'
       }
     }
 
+    button {
+      color: transparent;
+      .icon {
+        color: #778899;
+      }
+    }
+    button:hover {
+        .icon {
+          color: #FF0000;
+        }
+      }
+  }
+
+  .active-link {
+    border-bottom: 2px solid #FF0000;
+  }
+
+  @media screen and (max-width: 850px){
+    #header-container {
+      grid-template-columns: repeat(4,1fr);
+      grid-template-areas: 
+        'search-avatar search-avatar search-avatar search-avatar'
+        'home search notifications messages';
+
+      > div {
+        display: grid;
+        justify-self: flex-start;
+        justify-content: flex-start;
+        grid-template-columns: repeat(4,minmax(auto,auto));
+        grid-column-gap: 20px;
+        grid-template-areas: 
+          'avatar search-input search-input search-input';
+
+        input {
+          visibility: hidden;
+        }
+
+        .show {
+          visibility: visible;
+        }
+
+        #user-avatar {
+          margin-left: 0;
+          span {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
 </style>
 

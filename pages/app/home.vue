@@ -1,5 +1,5 @@
 <template>
-  <div>This is home</div>
+  <div class = 'route-pages'>This is home</div>
 </template>
 
 <script>

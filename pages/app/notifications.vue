@@ -1,5 +1,5 @@
 <template>
-  <div>This is Chat</div>
+  <div class = 'route-pages'>This is notification</div>
 </template>
 
 <script>

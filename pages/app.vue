@@ -7,6 +7,7 @@
 
 <script>
 import Header from '../components/header.vue';
+import appConfig from '../assets/scripts/config';
 export default {
     components: {
         Header
@@ -17,7 +18,7 @@ export default {
         }
     },
     mounted() {
-        fetch('http://localhost:3000/userProfile', {
+        fetch(`${appConfig.url}userProfile`, {
             credentials: 'include'
         }). then((data) => {
             return data.json()
@@ -35,5 +36,10 @@ export default {
 #app-container {
     max-width: 800px;
     margin: auto;
+    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    .route-pages {
+        margin: 10px;
+    }
 }
 </style>
