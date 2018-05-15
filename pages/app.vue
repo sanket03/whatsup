@@ -8,6 +8,8 @@
 <script>
 import Header from '../components/header.vue';
 import appConfig from '../assets/scripts/config';
+import utilityModule from '../assets/scripts/utility'
+
 export default {
     components: {
         Header
@@ -18,15 +20,9 @@ export default {
         }
     },
     mounted() {
-        fetch(`${appConfig.url}userProfile`, {
-            credentials: 'include'
-        }). then((data) => {
-            return data.json()
-        }).then((data) => {
-            console.log(data);
-            this.userDetails = data
-        }).catch((error) => {
-            console.log(error)
+        utilityModule.fetchData(appConfig.url).then((res)=>{
+            this.userDetails=res;
+            console.log(res);
         })
     }
 }
