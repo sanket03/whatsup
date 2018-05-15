@@ -136,6 +136,7 @@ export default {
 
   .active-link {
     border-bottom: 2px solid #FF0000;
+    margin-bottom: -2px;
   }
 
   @media screen and (max-width: 850px){
