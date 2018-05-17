@@ -1,15 +1,15 @@
 <template>
-  <div class = 'route-pages'>
-    This is home
-    <username/>
-  </div>
+    <div>
+        <username/>
+    </div>
 </template>
 
 <style lang="scss" scoped>
 </style>
 
+
 <script>
-import username from '../../components/username.vue';
+import username from '../username.vue';
 export default {
   components : {
     username

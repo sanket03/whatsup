@@ -1,6 +1,6 @@
 // Utility Module
 const utilityModule = (() => {
-    
+
     // Generic method to fetch data from an endpoint
     const fetchData = (url) => {
         return fetch(`${url}userProfile`, {
@@ -8,7 +8,6 @@ const utilityModule = (() => {
         }). then((res) => {
             return res.json()
         }).then((res) => {
-            console.log(data);
             return res;
             console.log('USER ID : ' + data.userId)
         }).catch((error) => {

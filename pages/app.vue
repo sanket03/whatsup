@@ -1,6 +1,9 @@
 <template>
     <div id = 'app-container'>
         <Header :userDetails = 'userDetails'/>
+        <v-btn fab dark color="indigo" id = 'add-photo'>
+        <v-icon dark>add</v-icon>
+        </v-btn>
         <nuxt-child/>
     </div>
 </template>
@@ -36,6 +39,12 @@ export default {
 
     .route-pages {
         margin: 10px;
+    }
+
+    #add-photo {
+        position : absolute;
+        bottom : 30px;
+        right : 30px;    
     }
 }
 </style>
