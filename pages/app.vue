@@ -2,7 +2,7 @@
     <div id = 'app-container'>
         <Header :userDetails = 'userDetails'/>
         <nuxt-child/>
-        <nuxt-link to = '/post'>
+        <nuxt-link to = '/post' id = 'add-post-link'>
             <v-btn fab color = 'red' id = 'add-post-btn'>
                 <v-icon color = 'white'>add</v-icon>
             </v-btn>
@@ -44,12 +44,20 @@ export default {
         padding: 10px 10px;
         position: absolute;
         top: 80px;
+        z-index: -1;
+        min-height: 100vh;
     }
 
-    #add-post-btn {
-        position : fixed;
-        right: 0;
-        bottom: 0; 
+    #add-post-link {
+        position: fixed;
+        width: 800px;
+        bottom: 0;
+
+        #add-post-btn {
+            position : absolute;
+            right: 0;
+            bottom: 10px;
+        }
     }
 }
 
@@ -57,6 +65,10 @@ export default {
     #app-container {
         .route-pages {
             top: 120px;
+            width: 100%;
+        }
+
+        #add-post-link {
             width: 100%;
         }
     }

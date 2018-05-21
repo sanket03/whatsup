@@ -57,6 +57,7 @@ export default {
 
 <style lang= 'scss' scoped>
   #header-container {
+    background-color: #FFF;
     position: fixed;
     width: 800px;
     padding: 10px 0 0 0;
