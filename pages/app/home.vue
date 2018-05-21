@@ -1,7 +1,6 @@
 <template>
   <div class = 'route-pages'>
     This is home
-    <username/>
   </div>
 </template>
 
@@ -13,16 +12,6 @@ import username from '../../components/username.vue';
 export default {
   components : {
     username
-  },
-  data() {
-    return{
-      isLoaded : ''
-    }
-  },
-  mounted(){
-    setTimeout(() => {
-      this.isLoaded = true;
-    },2000);
   }
 }
 </script>

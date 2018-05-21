@@ -2,8 +2,8 @@
   <div id = 'header-container'>
     <nuxt-link 
       v-for = 'link in headerLinks' 
-      :key = 'link' 
-      :id = 'link' 
+      :key = 'link'
+      :id = 'link'
       :to = 'link.toLowerCase()'
       active-class = 'active-link'
     > 
@@ -57,7 +57,9 @@ export default {
 
 <style lang= 'scss' scoped>
   #header-container {
-    margin: 10px;
+    position: fixed;
+    width: 800px;
+    padding: 10px 0 0 0;
     border-bottom: 1px solid #d3d3d3;
     display: grid;
     grid-template-columns: repeat(8,1fr);
@@ -87,13 +89,12 @@ export default {
       grid-area: messages;
     }
 
-    > div {
+    div {
       grid-area: search-avatar;
       display: flex;
       height: 100%;
-      width: 100%;
       align-items: center;
-      justify-content: flex-end;
+      justify-self: flex-end;
 
       input {
         grid-area: search-input;
@@ -139,8 +140,9 @@ export default {
     margin-bottom: -2px;
   }
 
-  @media screen and (max-width: 850px){
+  @media screen and (max-width: 800px){
     #header-container {
+      width: 100%;
       grid-template-columns: repeat(4,1fr);
       grid-template-areas: 
         'search-avatar search-avatar search-avatar search-avatar'
@@ -164,7 +166,7 @@ export default {
         }
 
         #user-avatar {
-          margin-left: 0;
+          margin-left: 10px;
           span {
             display: inline;
           }

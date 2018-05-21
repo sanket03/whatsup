@@ -13,7 +13,6 @@
 
 .loaded{
   background-color: red;
-  width : 400px;
   height : 40px;
 }
 </style>

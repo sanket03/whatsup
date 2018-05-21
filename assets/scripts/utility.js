@@ -9,7 +9,6 @@ const utilityModule = (() => {
             return res.json()
         }).then((res) => {
             return res;
-            console.log('USER ID : ' + data.userId)
         }).catch((error) => {
             console.log(error)
         })    

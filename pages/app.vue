@@ -1,10 +1,12 @@
 <template>
     <div id = 'app-container'>
         <Header :userDetails = 'userDetails'/>
-        <v-btn fab dark color="indigo" id = 'add-photo'>
-        <v-icon dark>add</v-icon>
-        </v-btn>
         <nuxt-child/>
+        <nuxt-link to = '/post'>
+            <v-btn fab color = 'red' id = 'add-post-btn'>
+                <v-icon color = 'white'>add</v-icon>
+            </v-btn>
+        </nuxt-link>
     </div>
 </template>
 
@@ -38,13 +40,25 @@ export default {
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
     .route-pages {
-        margin: 10px;
+        width: 800px;
+        padding: 10px 10px;
+        position: absolute;
+        top: 80px;
     }
 
-    #add-photo {
-        position : absolute;
-        bottom : 30px;
-        right : 30px;    
+    #add-post-btn {
+        position : fixed;
+        right: 0;
+        bottom: 0; 
+    }
+}
+
+@media screen and (max-width: 800px){
+    #app-container {
+        .route-pages {
+            top: 120px;
+            width: 100%;
+        }
     }
 }
 </style>
