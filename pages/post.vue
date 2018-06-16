@@ -1,55 +1,85 @@
 <template>
-    <div id = 'main-container'>
-        <nuxt-link to = 'app/home'>
-            <v-btn color="red" dark> 
-                <v-icon left>arrow_back</v-icon>
-            </v-btn>
-        </nuxt-link>
-
-        <v-avatar :size='30' class='grey lighten-4'>
-                <img :src = 'imgSrc' alt = ''/>
-        </v-avatar>
-
-        <textarea placeholder = 'Type here' maxlength = 30% width = 100%>
-        </textarea>
-    </div>
+    <v-app>
+        <div id = 'post-container'>
+            <div>
+                <nuxt-link to = 'app/home'>
+                    <v-icon left>arrow_back</v-icon>
+                </nuxt-link>
+                <v-btn round color = 'red' dark>Say it</v-btn>
+            </div>
+            <div>
+                <v-avatar class='grey lighten-4'>
+                    <img :src = 'imgSrc' alt = ''/>
+                </v-avatar>
+                <textarea  v-on:input = 'expandArea' v-bind:style = 'styleObject'  placeholder = 'Whats up'/>
+            </div>
+        </div>
+    </v-app>    
 </template>
 
+<script>
+    import appConfig from '../assets/scripts/config';;
+    import utilityModule from '../assets/scripts/utility';
+
+    export default {
+        data() {
+            return {
+                imgSrc: ``,
+                styleObject: {
+                    height: '100px'
+                },
+            }
+        },
+        mounted(){
+            let userId = utilityModule.getFromLocalStorage('userId');
+            this.imgSrc = `${appConfig.graphUrl}/${userId}/picture?type=small`;
+        },
+        methods: {
+            expandArea: function() {
+                var area = document.querySelector('textarea');
+                if(area.scrollHeight>100)
+                    this.styleObject.height = (area.scrollHeight) + 'px';
+            }
+        }
+    }
+</script>
 
 <style lang="scss" scoped>
-#main-container {
-    max-width: 800px;
-    margin: auto;
-    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    display : grid;
+    #post-container {
+        width: 400px;
+        margin: 0 auto 0 auto;
+        font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-    grid-template-columns : repeat(8,1fr);
-    grid-template-rows : repeat(3,1fr);
-}
+        div:nth-of-type(1) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
 
-v-btn{
-    text-decoration : none;
-}
-</style>
+            a {
+                text-decoration: none;
+            }
 
-
-
-<script>
-import appConfig from '../assets/scripts/config';
-import utilityModule from '../assets/scripts/utility'
-export default {
-    data() {
-        return {
-            imgSrc: ``,
-            userDetails: {}
+            button {
+                margin: 0;
+                text-transform: none;
+            }
         }
-    },
-    mounted(){
-        utilityModule.fetchData(appConfig.url).then((res)=>{
-            this.userDetails=res;
-            this.imgSrc = `${appConfig.graphUrl}/${this.userDetails.userId}/picture?type=small`;
-            console.log(res);
-        })
+
+        div:nth-of-type(2) {
+            display: flex;
+            margin: 10px;
+            textarea {
+                width: 100%;
+                outline: none;
+                margin-left: 5px;
+            }
+        }
     }
-}
-</script>
+
+    @media screen and (max-width: 800px) {
+        #post-container {
+            width: 100%;
+        }
+    }
+</style>

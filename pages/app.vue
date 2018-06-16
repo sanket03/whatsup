@@ -1,6 +1,6 @@
 <template>
     <div id = 'app-container'>
-        <Header :userDetails = 'userDetails'/>
+        <Header :userDetails = 'userDetails' :imgSrc = 'imgSrc'/>
         <nuxt-child/>
         <nuxt-link to = '/post' id = 'add-post-link'>
             <v-btn fab color = 'red' id = 'add-post-btn'>
@@ -21,12 +21,15 @@ export default {
     },
     data() {
         return {
+            imgSrc: '',
             userDetails: {}
         }
     },
     mounted() {
-        utilityModule.fetchData(appConfig.url).then((res)=>{
-            this.userDetails=res;
+        utilityModule.fetchData(`${appConfig.url}userProfile`).then((res)=>{
+            this.userDetails = res;
+            utilityModule.setLocalStorage('userId', this.userDetails.userId);
+            this.imgSrc = `${appConfig.graphUrl}/${this.userDetails.userId}/picture?type=small`;
             console.log(res);
         })
     }
