@@ -28,31 +28,22 @@
 </template>
 
 <script>
-import appConfig from '../assets/scripts/config';
-export default {
-  props: ['userDetails'],
-  
-  // Watcher is required to update data whenever prop changes
-  watch: {
-    userDetails : function() {
-      this.imgSrc = `${appConfig.graphUrl}/${this.userDetails.userId}/picture?type=small`
-    }
-  },
+  export default {
+    props: ['userDetails', 'imgSrc'],
 
-  data() {
-    return {
-     imgSrc: '',
-     headerLinks: ['Home', 'Search', 'Notifications', 'Message'],
-     activeLink: ''
-    }
-  },
+    data() {
+      return {
+      headerLinks: ['Home', 'Search', 'Notifications', 'Message'],
+      activeLink: ''
+      }
+    },
 
-  methods: {
+    methods: {
       setActiveLink(event) {
         this.activeLink = event.currentTarget.parentNode.id;
       }
+    }
   }
-}
 </script>
 
 <style lang= 'scss' scoped>
