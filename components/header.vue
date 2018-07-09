@@ -47,8 +47,10 @@
 </script>
 
 <style lang= 'scss' scoped>
+@import '../assets/styles/global.scss';
+
   #header-container {
-    background-color: #FFF;
+    background-color: $color-white;
     position: fixed;
     width: 800px;
     padding: 10px 0 0 0;
@@ -98,7 +100,7 @@
 
       input:focus {
         outline: none;
-        border-color: #FF0000;
+        border-color: $color-red;
       }
 
       #user-avatar {
@@ -122,13 +124,13 @@
     }
     button:hover {
         .icon {
-          color: #FF0000;
+          color: $color-red;
         }
       }
   }
 
   .active-link {
-    border-bottom: 2px solid #FF0000;
+    border-bottom: 2px solid $color-red;
     margin-bottom: -2px;
   }
 
