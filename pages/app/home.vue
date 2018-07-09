@@ -1,6 +1,8 @@
 <template>
   <div class = 'route-pages'>
-    This is home
+    <span v-if = 'post.length>0'>
+          {{post[0].post}}
+    </span>
   </div>
 </template>
 
@@ -9,9 +11,17 @@
 
 <script>
 import username from '../../components/username.vue';
+import globalStates from '../../assets/scripts/globalStates';
+
 export default {
   components : {
     username
+  },
+
+  data() {
+    return {
+      post: globalStates.post.reverse()
+    }
   }
 }
 </script>
