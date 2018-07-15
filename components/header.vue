@@ -4,11 +4,11 @@
       v-for = 'link in headerLinks' 
       :key = 'link'
       :id = 'link'
-      :to = 'link.toLowerCase()'
+      :to = 'link'
       active-class = 'active-link'
     > 
       <v-btn flat block @click = 'setActiveLink'>
-        <v-icon medium>{{link.toLowerCase()}}</v-icon>
+        <v-icon medium>{{link}}</v-icon>
       </v-btn>
     </nuxt-link>
     <div>
@@ -18,24 +18,42 @@
         :class = '[activeLink == "Search" ? "show" : ""]'
       />
       <div id = 'user-avatar'>
-        <v-avatar :size='30' class='grey lighten-4'>
-          <img v-bind:src = 'imgSrc' alt = ''/>
-        </v-avatar>
-        <span v-if = 'activeLink !== "Search"'>{{activeLink}}</span>
+          <Avatar 
+              :classes = '"grey lighten-4"'
+              :userId = 'userDetails.userId'
+              :size = '30'
+          />
+        <span v-if = 'activeLink !== "Search"'>{{activeLink | toTitleCase}}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Avatar from '../components/avatar';
   export default {
-    props: ['userDetails', 'imgSrc'],
+    components: {
+      Avatar
+    },
+
+    props: ['userDetails'],
 
     data() {
       return {
-      headerLinks: ['Home', 'Search', 'Notifications', 'Message'],
-      activeLink: ''
+        headerLinks: ['home', 'search', 'notifications', 'message'],
+        activeLink: 'home'
       }
+    },
+
+    filters: {
+      toTitleCase(string) {
+        return string[0].toUpperCase() + string.substring(1);
+      }
+    },
+
+    mounted() {
+      const href = window.location.href;
+      this.activeLink = href.substring(href.lastIndexOf('/')+1);
     },
 
     methods: {
@@ -50,10 +68,10 @@
 @import '../assets/styles/global.scss';
 
   #header-container {
+    @include dimension($width:800px);
+    @include position($type: fixed);
+    @include padding($top: 10px);
     background-color: $color-white;
-    position: fixed;
-    width: 800px;
-    padding: 10px 0 0 0;
     border-bottom: 1px solid #d3d3d3;
     display: grid;
     grid-template-columns: repeat(8,1fr);
@@ -63,7 +81,7 @@
     justify-items: center;
 
     a {
-      width: 100%;
+      @include dimension($width:100%);
       text-decoration: none;
     }
 
@@ -84,18 +102,17 @@
     }
 
     div {
-      grid-area: search-avatar;
-      display: flex;
-      height: 100%;
-      align-items: center;
+      @include dimension($height: 100%);
+      @include flexbox($alignItems: center);
       justify-self: flex-end;
+      grid-area: search-avatar;
 
       input {
+        @include dimension($height: 50%);
+        @include padding(12px, 5px, 12px, 5px);
         grid-area: search-input;
         border: 1px solid #d3d3d3;
         border-radius: 10px;
-        height: 50%;
-        padding: 12px 5px;
       }
 
       input:focus {
@@ -104,13 +121,13 @@
       }
 
       #user-avatar {
+        @include margin($left: 20px);
         grid-area: avatar;
         align-self: center;
-        margin-left: 20px;
 
         span {
+          @include margin($left: 5px);
           font-weight: 600;
-          margin-left: 5px;
           display: none;
         }
       }
@@ -130,13 +147,13 @@
   }
 
   .active-link {
+    @include margin($bottom: -2px);
     border-bottom: 2px solid $color-red;
-    margin-bottom: -2px;
   }
 
   @media screen and (max-width: 800px){
     #header-container {
-      width: 100%;
+      @include dimension($width: 100%);
       grid-template-columns: repeat(4,1fr);
       grid-template-areas: 
         'search-avatar search-avatar search-avatar search-avatar'
@@ -160,7 +177,7 @@
         }
 
         #user-avatar {
-          margin-left: 10px;
+          @include margin($left: 10px);
           span {
             display: inline;
           }

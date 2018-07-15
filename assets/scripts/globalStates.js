@@ -1,5 +1,5 @@
 let globalStates = {};
 
-globalStates.post = [];
+globalStates.postList = [];
 
 export default globalStates;

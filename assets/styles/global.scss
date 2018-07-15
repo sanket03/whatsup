@@ -1,2 +1,50 @@
 $color-white: #FFF;
-$color-red: #FF0000
+$color-red: #FF0000;
+
+// Mixin for setting height and width 
+@mixin dimension($width: auto, $height: auto) {
+    width: $width;
+    height: $height;
+}
+
+// Mixin for setting flex properties
+@mixin flexbox($direction: row, $justifyContent: flex-start, $alignItems: stretch) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justifyContent;
+    align-items: $alignItems
+}
+
+// Mixin for setting element padding
+@mixin padding($top: 0, $right: 0, $bottom: 0, $left: 0, $all: none) {
+    @if $all == none {
+        padding-top: $top;
+        padding-right: $right;
+        padding-bottom: $bottom;
+        padding-left: $left;
+    } @else {
+        padding: $all;
+    }
+}
+
+// Mixin for setting element margin
+@mixin margin($top: 0, $right: 0, $bottom: 0, $left: 0, $all: none) {
+    @if $all == none {
+        margin-top: $top;
+        margin-right: $right;
+        margin-bottom: $bottom;
+        margin-left: $left;
+    } @else {
+        margin: $all;
+    }
+}
+
+// Mixin for element position
+@mixin position($type: relative, $top:auto, $right:auto, $bottom: auto, $left:auto, $zindex: auto) {
+    position: $type;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    z-index: $zindex;
+}

@@ -7,9 +7,11 @@
                 </nuxt-link>
             </div>
             <div>
-                <v-avatar class='grey lighten-4'>
-                    <img :src = 'imgSrc' alt = ''/>
-                </v-avatar>
+                <Avatar 
+                    :classes = '"grey lighten-4"'
+                    :userId = 'userId'
+                    :size = '30'
+                />
                 <textarea  
                     @input = 'expandArea' 
                     :style = 'styleObject' 
@@ -18,6 +20,7 @@
                 />
             </div>
             <div>
+                <span v-if = 'postData.image.length > 0'>Image Uploaded</span>
                 <v-btn flat icon color="red" @click = 'dialog = true'>
                     <v-icon>camera_alt</v-icon>
                 </v-btn>
@@ -28,20 +31,22 @@
                 </nuxt-link>
             </div>
         </div>
-        <CameraDialog :dialog = 'dialog' :closeDialog = 'closeDialog'/>
+        <CameraDialog :dialog = 'dialog' :uploadImage = 'uploadImage.bind(this)'/>
     </v-app>    
 </template>
 
 <script>
+    import CameraDialog from '../components/cameraDialog';
+    import Avatar from '../components/avatar';
     import appConfig from '../assets/scripts/config';
     import utilityModule from '../assets/scripts/utility';
     import globalStates from '../assets/scripts/globalStates';
-    import CameraDialog from '../components/cameraDialog'
 
     export default {
 
         components : {
-            CameraDialog
+            CameraDialog,
+            Avatar
         },
 
         data() {
@@ -51,17 +56,19 @@
                     height: '30px'
                 },
                 postData: {
+                    userId: '',
+                    userName: '',
                     post:'',
                     image:'',
                     location:''
                 },
-                dialog: false
+                dialog: false,
+                userId: ''
             }
         },
 
-        mounted(){
-            let userId = utilityModule.getFromLocalStorage('userId');
-            this.imgSrc = `${appConfig.graphUrl}/${userId}/picture?type=small`;
+        mounted() {
+            this.userId = utilityModule.getFromLocalStorage('userId');
         },
 
         methods: {
@@ -71,55 +78,63 @@
                     this.styleObject.height = (area.scrollHeight) + 'px';
             },
 
+            // Append posts
             postToHomePage() {
-                globalStates.post.push(this.postData);
+                this.postData.userId = this.userId;
+                this.postData.userName = utilityModule.getFromLocalStorage('userName');
+                globalStates.postList.push(this.postData);
             },
 
+            // Close camera dialog
             closeDialog() {
                 this.dialog = false;
+            },
+
+            uploadImage(dataURL) {
+                this.postData.image = dataURL;
+                this.closeDialog();
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    @import '../assets/styles/global.scss';
     #post-container {
-        width: 400px;
-        margin: 0 auto 0 auto;
-        z-index: 1;
+        @include dimension($width: 400px);
+        @include margin(0, auto, 0, auto);
+        @include position($zindex: 1);
         font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
         div:nth-of-type(1) {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px;
+            @include flexbox('row', 'space-between', 'center');
+            @include margin($all: 10px);
 
             a {
                 text-decoration: none;
             }
 
             button {
-                margin: 0;
+                @include margin($all: 0px);
                 text-transform: none;
             }
         }
 
         div:nth-of-type(2) {
-            display: flex;
-            margin: 10px;
+            @include flexbox;
+            @include margin($all: 10px);
+
             textarea {
-                width: 100%;
+                @include dimension($width: 100%);
+                @include margin($left: 5px);
                 outline: none;
-                margin-left: 5px;
                 overflow: hidden;
             }
             border-bottom: 1px solid #d3d3d3;
         }
 
         div:nth-of-type(3) {
-            display: flex;
-            justify-content: flex-end;
+            @include flexbox($justifyContent: flex-end);
             a {
                 text-decoration: none;
             }
@@ -127,12 +142,12 @@
     }
 
     .fade {
-            opacity: 0.2;
+            opacity: 0;
     }
 
     @media screen and (max-width: 800px) {
         #post-container {
-            width: 100%;
+            @include dimension(100%, auto);
         }
     }
 </style>

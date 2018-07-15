@@ -1,27 +1,30 @@
 <template>
-  <div class = 'route-pages'>
-    <span v-if = 'post.length>0'>
-          {{post[0].post}}
-    </span>
+  <div class = 'route-pages'>  
+    <Post 
+      v-for = '(post, index) in posts' 
+      :key = 'index'
+      :post = 'post'
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
+
 </style>
 
 <script>
-import username from '../../components/username.vue';
-import globalStates from '../../assets/scripts/globalStates';
+  import Post from '../../components/post';
+  import globalStates from '../../assets/scripts/globalStates';
 
-export default {
-  components : {
-    username
-  },
+  export default {
+    components : {
+      Post
+    },
 
-  data() {
-    return {
-      post: globalStates.post.reverse()
+    data() {
+      return {
+        posts: globalStates.postList
+      }
     }
   }
-}
 </script>
