@@ -82,6 +82,7 @@
             postToHomePage() {
                 this.postData.userId = this.userId;
                 this.postData.userName = utilityModule.getFromLocalStorage('userName');
+                this.postData.location = utilityModule.getUserLocation();
                 globalStates.postList.push(this.postData);
             },
 
@@ -137,6 +138,10 @@
             @include flexbox($justifyContent: flex-end);
             a {
                 text-decoration: none;
+            }
+
+            > span {
+                align-self: center;
             }
         }
     }
