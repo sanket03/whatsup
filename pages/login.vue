@@ -17,18 +17,19 @@
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/styles/global.scss';
 #login-container {
-    width: 100%;
+    @include dimension($width: 100%);
+    @include margin(40px, auto, 40px, auto);
     max-width: 800px;
     text-align: center;
-    margin: 40px auto;
 
     .application.theme--light {
         background-color: #FFF;
 
         .application--wrap {
             > div {
-                margin: 5px 0;
+                @include margin(5px, 0px, 5px, 0px);
                 font-size: 16pt
             }
 

@@ -5,16 +5,16 @@
              :src = 'imgSrc' 
              :class = '{media: true, hide: !imageCaptured}'
              alt = 'Capturing'
-        ></img>
+        />
         <video id = 'video'  :class = '{hide: imageCaptured , media: true}'></video>
         <v-btn v-if = '!imageCaptured' flat icon color = 'red' @click = 'captureImage'>
             <v-icon>face</v-icon>
         </v-btn>
         <div v-else>
-            <v-btn flat icon color = 'red'>
+            <v-btn flat icon color = 'red' @click = 'uploadImageFromChild'>
                 <v-icon>done</v-icon>
             </v-btn>
-            <v-btn flat icon color = 'red' @click = 'imageCaptured = false'>
+            <v-btn flat icon color = 'red' @click = 'resetImage'>
                 <v-icon>clear</v-icon>
             </v-btn>
         </div>
@@ -25,7 +25,7 @@
 import icon from '../assets/images/icon.jpg';
   export default {
 
-    props: ['dialog', 'closeDialog'],
+    props: ['dialog', 'uploadImage'],
 
     data() {
         return {
@@ -38,6 +38,7 @@ import icon from '../assets/images/icon.jpg';
     watch: {
         dialog() {
             this.showCameraDialog = this.dialog;
+            this.showCameraDialog ? this.getUserImageFromCamera() : '';
         }
     },
 
@@ -50,16 +51,22 @@ import icon from '../assets/images/icon.jpg';
         this.imageCapture = '';
     },
 
-    updated() {
-        this.getUserImageFromCamera()
-    },
-
     methods: {
+
+        uploadImageFromChild() {
+            this.uploadImage(this.imgSrc);
+            this.imageCaptured = false;
+            this.imgSrc = '';
+        },
+
+        resetImage() { 
+            this.imgSrc = ""; 
+            this.imageCaptured = false;
+        },
 
         // show live stream from webcam
         getUserImageFromCamera() {
             if(this.showCameraDialog) {
-                window.scrollTo(0,document.body.scrollHeight);
 
                 // Get access to the camera!
                 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -107,8 +114,6 @@ import icon from '../assets/images/icon.jpg';
             const $video = this.$video;
             const $image = this.$image;
             const $canvas = this.$canvas;
-            this.imageCaptured = true;
-            this.imgSrc = '';
 
             // If Image Capture API is not supported
             if(!window.ImageCapture) {
@@ -119,8 +124,9 @@ import icon from '../assets/images/icon.jpg';
             else {
                 this.imageCapture.takePhoto()
                     .then(blob => {
-                        $image.src = URL.createObjectURL(blob);
+                        this.imgSrc = URL.createObjectURL(blob);
                         $image.onload = () => { URL.revokeObjectURL(this.src); }
+                        this.imageCaptured = true;
                     })
                     .catch( (error) => {
 
@@ -147,23 +153,18 @@ import icon from '../assets/images/icon.jpg';
             }
             const imageData = $canvas.toDataURL('image/png');
             this.imgSrc = imageData;
+            this.imageCaptured = true;
         }
     }
   }
 </script>
 
 <style lang= 'scss' scoped>
-    @mixin dimension($width, $height) {
-        width: $width;
-        height: $height;
-    }
+    @import '../assets/styles/global.scss';
 
     #camera-dialog {
-        position: absolute;
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        @include position($type: absolute);
+        @include flexbox(column, center, center);
         @include dimension(100%, 100%);
 
         .media {
@@ -198,7 +199,7 @@ import icon from '../assets/images/icon.jpg';
     @media screen and (max-width: 400px) {
         #camera-dialog {
             @include dimension(100%, 100%);
-            justify-content: flex-start;
+            @include flexbox(column, flex-start, center);
 
             .media {
                 @include dimension(100%, 80%);              
@@ -209,9 +210,10 @@ import icon from '../assets/images/icon.jpg';
     @media screen and (max-height: 400px) {
         #camera-dialog {
             @include dimension(100%, 100%);
+            @include flexbox(row, flex-start, center);
 
             .media {
-                @include dimension(250px, 250px);              
+                @include dimension(80%, 100%);              
             }
         }
     }

@@ -1,3 +1,5 @@
+import appConfig from './config';
+
 // Utility Module
 const utilityModule = (() => {
 
@@ -24,10 +26,21 @@ const utilityModule = (() => {
         return localStorage.getItem(key);
     }
 
+    // Generic method for getting location details
+    const getUserLocation = () => {
+        if('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                let geoData = fetchData(`${appConfig.geoCodeUrl}?latlng=${position.coords.latitude},${position.coords.longitude}&key=${appConfig.geoCodeApi}`);
+                console.log(geoData);
+            })
+        }
+    }
+
     return {
         fetchData,
         setLocalStorage,
-        getFromLocalStorage
+        getFromLocalStorage,
+        getUserLocation
     }
 })();
 
