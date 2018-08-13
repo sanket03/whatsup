@@ -4,9 +4,9 @@ import appConfig from './config';
 const utilityModule = (() => {
 
     // Generic method to fetch data from an endpoint
-    const fetchData = (url) => {
+    const fetchData = (url, credentials = 'include') => {
         return fetch(url, {
-            credentials: 'include'
+            credentials
         }). then((res) => {
             return res.json()
         }).then((res) => {
@@ -29,10 +29,11 @@ const utilityModule = (() => {
     // Generic method for getting location details
     const getUserLocation = () => {
         if('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                let geoData = fetchData(`${appConfig.geoCodeUrl}?latlng=${position.coords.latitude},${position.coords.longitude}&key=${appConfig.geoCodeApi}`);
-                console.log(geoData);
-            })
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    resolve(position);
+                });
+            });
         }
     }
 
