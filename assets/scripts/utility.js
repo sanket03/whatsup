@@ -1,4 +1,5 @@
 import appConfig from './config';
+import globalStates from './globalStates';
 
 // Utility Module
 const utilityModule = (() => {
@@ -29,10 +30,17 @@ const utilityModule = (() => {
     // Generic method for getting location details
     const getUserLocation = () => {
         if('geolocation' in navigator) {
-            return new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    resolve(position);
-                });
+            navigator.geolocation.getCurrentPosition((position) => {
+                    let  { latitude, longitude } = position.coords;
+                    globalStates.location  = {latitude, longitude};
+                    let geoData = fetchData(`${appConfig.geoCodeUrl}?latlng=${latitude},${longitude}&key=${appConfig.geoCodeApiKey}`, 'omit');     
+                    geoData.then((res) => {
+                        console.log(res)
+                        let address = res.results[res.results.length -1].formatted_address.split(',');
+                        globalStates.location.address = `${address[address.length-3]}, ${address[address.length-1]}`;
+                    }).catch((error) => {
+                        console.log(error)
+                    });
             });
         }
     }

@@ -69,6 +69,7 @@
 
         mounted() {
             this.userId = utilityModule.getFromLocalStorage('userId');
+            utilityModule.getUserLocation();
         },
 
         methods: {
@@ -82,19 +83,8 @@
             postToHomePage() {
                 this.postData.userId = this.userId;
                 this.postData.userName = utilityModule.getFromLocalStorage('userName');
-                this.postData.location = this.getLocation();
+                this.postData.location = globalStates.location;
                 globalStates.postList.push(this.postData);
-            },
-
-            getLocation() {
-
-                utilityModule.getUserLocation().then((position) => {
-                    let geoData = utilityModule.fetchData(`${appConfig.geoCodeUrl}?latlng=${position.coords.latitude},${position.coords.longitude}&key=${appConfig.geoCodeApiKey}`, 'omit');
-                    geoData.then((res) => {
-                        let address = res.results[res.results.length -1].formatted_address.split(',');
-                        console.log(address[0], address[address.length -1]);
-                    });
-                });;
             },
 
             // Close camera dialog

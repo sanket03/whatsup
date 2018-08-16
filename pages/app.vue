@@ -25,11 +25,13 @@ export default {
         }
     },
     mounted() {
-        utilityModule.fetchData(`${appConfig.url}userProfile`).then((res)=>{
-            this.userDetails = res;
-            utilityModule.setLocalStorage('userId', this.userDetails.userId);
-            utilityModule.setLocalStorage('userName', this.userDetails.displayName);
-        })
+        if(!utilityModule.getFromLocalStorage('userId')) {
+            utilityModule.fetchData(`${appConfig.url}userProfile`).then((res)=>{
+                this.userDetails = res;
+                utilityModule.setLocalStorage('userId', this.userDetails.userId);
+                utilityModule.setLocalStorage('userName', this.userDetails.displayName);
+            });
+        }
     }
 }
 </script>
