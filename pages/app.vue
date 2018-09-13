@@ -21,16 +21,25 @@ export default {
     },
     data() {
         return {
-            userDetails: {}
+            userDetails: {
+                userId: '',
+                displayName:''
+            }
         }
     },
+
+    // Get userId and displayName for logged in user
     mounted() {
         if(!utilityModule.getFromLocalStorage('userId')) {
             utilityModule.fetchData(`${appConfig.url}userProfile`).then((res)=>{
+                console.log(res)
                 this.userDetails = res;
                 utilityModule.setLocalStorage('userId', this.userDetails.userId);
                 utilityModule.setLocalStorage('userName', this.userDetails.displayName);
             });
+        } else {
+            this.userDetails.userId = utilityModule.getFromLocalStorage('userId');
+            this.userDetails.displayName = utilityModule.getFromLocalStorage('displayName');
         }
     }
 }

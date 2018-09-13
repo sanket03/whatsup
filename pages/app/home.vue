@@ -14,7 +14,7 @@
 
 <script>
   import Post from '../../components/post';
-  import globalStates from '../../assets/scripts/globalStates';
+  import store from '../../assets/scripts/store';
 
   export default {
     components : {
@@ -23,7 +23,7 @@
 
     data() {
       return {
-        posts: globalStates.postList
+        posts: store.state.postList
       }
     }
   }

@@ -40,7 +40,7 @@
     import Avatar from '../components/avatar';
     import appConfig from '../assets/scripts/config';
     import utilityModule from '../assets/scripts/utility';
-    import globalStates from '../assets/scripts/globalStates';
+    import store from '../assets/scripts/store';
 
     export default {
 
@@ -83,8 +83,8 @@
             postToHomePage() {
                 this.postData.userId = this.userId;
                 this.postData.userName = utilityModule.getFromLocalStorage('userName');
-                this.postData.location = globalStates.location;
-                globalStates.postList.push(this.postData);
+                this.postData.location = store.state.location;
+                store.setPostAction(this.postData);
             },
 
             // Close camera dialog

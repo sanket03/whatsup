@@ -9,7 +9,7 @@
             <b><span class = 'username-container'>{{post.userName}}</span></b>
             <div class = 'content-container'>{{post.post}}</div>
             <img :src = 'post.image'/>
-            <span class = 'location-container'>{{post.location.address}}</span>
+            <div class = 'location-container'>{{post.location.address}}</div>
         </div>
     </div>
 </template>
@@ -25,7 +25,6 @@
 
     data() {
         return {
-
         }
     },
   }

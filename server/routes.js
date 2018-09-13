@@ -17,10 +17,7 @@ redisClient.on('connect', function() {
 router.get('/auth/facebook', passport.authenticate(authStrategy));
 
 router.get('/auth/facebook/callback',
-  passport.authenticate(authStrategy, { failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/app/home');
-    }
+  passport.authenticate(authStrategy, { successRedirect: '/app/home', failureRedirect: '/login' })
 );
 
 // Redirect user to login/app page based on logged in Status
@@ -30,6 +27,7 @@ router.get('/', (req, res) => {
 
 // Get user profile on login
 router.get('/userProfile', (req, res, next) => {
+  console.log(req.user)
   redisClient.hgetall(`userProfile:${req.user}`, (error, result) => {
     error ? console.log('Unable to fetch user profile') : res.send(result)
   }); 

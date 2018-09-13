@@ -1,5 +1,5 @@
 import appConfig from './config';
-import globalStates from './globalStates';
+import store from './store';
 
 // Utility Module
 const utilityModule = (() => {
@@ -9,6 +9,7 @@ const utilityModule = (() => {
         return fetch(url, {
             credentials
         }). then((res) => {
+            console.log(res);
             return res.json()
         }).then((res) => {
             return res;
@@ -32,15 +33,19 @@ const utilityModule = (() => {
         if('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                     let  { latitude, longitude } = position.coords;
-                    globalStates.location  = {latitude, longitude};
-                    let geoData = fetchData(`${appConfig.geoCodeUrl}?latlng=${latitude},${longitude}&key=${appConfig.geoCodeApiKey}`, 'omit');     
-                    geoData.then((res) => {
-                        console.log(res)
-                        let address = res.results[res.results.length -1].formatted_address.split(',');
-                        globalStates.location.address = `${address[address.length-3]}, ${address[address.length-1]}`;
-                    }).catch((error) => {
-                        console.log(error)
-                    });
+                    if(!store.state.location.address) {
+                        let geoData = fetchData(`${appConfig.geoCodeUrl}?latlng=${latitude},${longitude}&result_type=country|locality&key=${appConfig.geoCodeApiKey}`, 'omit');     
+                        geoData.then((res) => {
+                            console.log(res)
+                            let address = res.results[res.results.length -1].formatted_address.split(',');
+                            console.log(address)
+                            address = `${address[address.length-3]}, ${address[address.length-1]}`;
+                            store.setLocationAction({latitude, longitude, address});
+                            console.log(address)
+                        }).catch((error) => {
+                            console.log(error)
+                        });
+                    }
             });
         }
     }
